@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LINEWORK — art from equations</title>
+<meta name="description" content="A living gallery of mathematical art. Every piece is drawn live in your browser by a few lines of math — string art, harmonographs, strange attractors, GPU shaders — and exports as plotter-ready SVG. Make your own in the Studio.">
+<meta property="og:title" content="LINEWORK — art from equations">
+<meta property="og:description" content="Plug in an equation. Get back something beautiful. Interactive math art, drawn live in your browser and ready for a real pen.">
+<meta name="theme-color" content="#FBFAF5">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23FBFAF5'/%3E%3Ccircle cx='16' cy='16' r='12' fill='none' stroke='%2315161B' stroke-width='1.4'/%3E%3Cpath d='M16 4 28 16 16 28 4 16Z' fill='none' stroke='%23A53A2B' stroke-width='1.4'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,500;1,300;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles/linework.css">
+</head>
+<body>
+
+<header>
+  <div class="wordmark">LINE<b>WORK</b></div>
+  <nav>
+    <a href="#gallery">collection</a>
+    <a href="#compositions">compositions</a>
+    <a href="#editions">editions</a>
+    <a href="#motion">in motion</a>
+    <a href="#studio">the studio</a>
+    <a href="#how">colophon</a>
+    <button class="ghost" id="shuffleAllBtn" title="shuffle every piece (shift+S)">↻ shuffle all</button>
+    <button class="ghost" id="themeBtn" title="toggle blueprint mode (B)">◐ blueprint</button>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="kicker">a gallery of computed drawings</div>
+  <h1>Plug in an equation.<br>Get back <em>something beautiful.</em></h1>
+  <p class="lede">Every image on this page is drawn live in your browser by a few lines of mathematics — nothing here is a photo. This is one argument in five chapters: start with a single equation, let many of them share a frame, pull a signed edition, watch the same ideas come alive on your GPU — then make one yourself. Every plotted piece exports as plotter-ready SVG, so these drawings can leave the screen and become real ink on real paper. Made entirely with a keyboard.</p>
+  <div class="hero-canvas-wrap">
+    <canvas id="heroCanvas" aria-label="Chord diagram continuously morphing through multiplication tables"></canvas>
+    <div class="hero-tag" id="heroTag">fig. 0 — n ↦ k·n (mod N) · k = 2.00 · click to pause</div>
+  </div>
+</section>
+
+<div class="chapter" id="gallery">
+  <div class="chapter-mark">
+    <span class="chapter-no">01</span>
+    <h2>The Collection</h2>
+    <div class="rule"></div>
+    <div class="count mono">10 plotted pieces · click any to enlarge</div>
+  </div>
+  <p class="chapter-intro"><b>One equation, one image.</b> The vocabulary — each frame is a single idea from math's back catalogue, drawn stroke by stroke. Turn a knob and watch the idea move.</p>
+</div>
+<div class="gallery" id="galleryGrid"></div>
+
+<div class="chapter" id="compositions">
+  <div class="chapter-mark">
+    <span class="chapter-no">02</span>
+    <h2>Compositions</h2>
+    <div class="rule"></div>
+    <div class="count mono">4 pieces · many equations sharing one frame</div>
+  </div>
+  <p class="chapter-intro"><b>Many equations, one frame.</b> A single voice becomes a chorus: tiles, atlases and subdivisions that let a whole family of curves occupy the same sheet.</p>
+</div>
+<div class="gallery" id="compGrid"></div>
+
+<div class="chapter" id="editions">
+  <div class="chapter-mark">
+    <span class="chapter-no">03</span>
+    <h2>Editions</h2>
+    <div class="rule"></div>
+    <div class="count mono">3 layered prints · background, hero, accent — signed in the plate</div>
+  </div>
+  <p class="chapter-intro"><b>The finished artifact.</b> Layers stacked and composed the way an etching is pulled — background, hero, accent — closed with a plate border and the printmaker's chop.</p>
+</div>
+<div class="gallery" id="edGrid"></div>
+
+<div class="chapter" id="motion">
+  <div class="chapter-mark">
+    <span class="chapter-no">04</span>
+    <h2>In Motion</h2>
+    <div class="rule"></div>
+    <div class="count mono">3 shader pieces · computed by your GPU, live</div>
+  </div>
+  <p class="chapter-intro"><b>The same ideas, alive.</b> Fields and line-screens handed to your graphics card — a tiny program per pixel, sixty times a second, never quite repeating.</p>
+</div>
+<div class="gallery" id="motionGrid"></div>
+
+<div class="chapter" id="studio">
+  <div class="chapter-mark">
+    <span class="chapter-no">05</span>
+    <h2>The Studio</h2>
+    <div class="rule"></div>
+    <div class="count mono">your turn at the press</div>
+  </div>
+  <p class="chapter-intro"><b>Now you make one.</b> No math required — start from a specimen, turn the knobs, hit surprise. When you find something you love, send it to a pen.</p>
+</div>
+<section class="studio">
+  <div class="studio-panel">
+    <div class="studio-canvas-wrap"><canvas id="studioCanvas" aria-label="Your parametric drawing"></canvas></div>
+    <div class="studio-side">
+      <h3>Your turn at the press</h3>
+      <p class="studio-lead">You don't need to know the math. Pick a starting point below, turn the knobs, or hit <em>surprise me</em> — every path here lands on something worth keeping. Then export it as SVG and feed it to a real pen.</p>
+
+      <div class="preset-label">start from a specimen ↓</div>
+      <div class="preset-strip" id="studioPresets"></div>
+
+      <div class="btn-row">
+        <button class="accent" id="studioSurprise">🎲 surprise me</button>
+        <button id="studioReplay">replay</button>
+      </div>
+
+      <div class="studio-knobs">
+        <div class="ctl"><label>detail (×π)</label><input type="range" id="studioTm" min="1" max="48" step="1" value="2"><output id="studioTmOut">2</output></div>
+        <div class="ctl"><label>a</label><input type="range" id="studioA" min="-10" max="10" step="0.1" value="7"><output id="studioAOut">7</output></div>
+        <div class="ctl"><label>b</label><input type="range" id="studioB" min="-10" max="10" step="0.1" value="3"><output id="studioBOut">3</output></div>
+      </div>
+      <div class="studio-error" id="studioError" role="alert"></div>
+
+      <details class="studio-math">
+        <summary>show the math</summary>
+        <div class="studio-field">
+          <label for="studioX">x(t) =</label>
+          <input type="text" id="studioX" spellcheck="false" autocomplete="off">
+        </div>
+        <div class="studio-field">
+          <label for="studioY">y(t) =</label>
+          <input type="text" id="studioY" spellcheck="false" autocomplete="off">
+        </div>
+        <div class="studio-hint">use t, a, b · sin cos tan sqrt abs exp log pow min max floor · pi · ^ for powers · Enter to plot</div>
+      </details>
+
+      <div class="btn-row">
+        <button id="studioLink">copy link</button>
+        <button id="studioPng">PNG</button>
+        <button id="studioSvg">SVG</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="about" id="how">
+  <div>
+    <h2>Colophon</h2>
+    <p>Each artwork here is a single JavaScript function: it receives a canvas and a handful of parameters, and traces curves with plain trigonometry and noise. The moving pieces are fragment shaders — tiny programs your graphics card runs for every pixel, sixty times a second. There is no framework and no build step; the whole thing is plain ES modules a browser runs as-is.</p>
+    <p>Posting a new piece means writing one function and adding one entry to a list. The sliders, plotting animation, lightbox, permalinks and exports all come for free. That's the entire publishing workflow: keyboard in, art out. The <span class="mono" style="color:var(--blue)">README</span> in the repo walks you through it.</p>
+    <p>Every plotted piece (and your Studio creations) exports as SVG — real vector paths, not pixels. Feed that file to an AxiDraw or any pen plotter and these drawings become physical ink on physical paper, exactly the way string artists and spirograph makers work by hand. The background sits on its own layer so you can delete it before plotting.</p>
+    <p>Fork it, change the code in <span class="mono" style="color:var(--blue)">src/</span>, and switch on GitHub Pages — your own gallery gets a public URL in about two minutes. Every slider position is shareable; the link encodes the math itself.</p>
+  </div>
+  <div>
+    <pre><span class="c">// adding a new artwork = one object in src/art/collection.js</span>
+{
+  title: <span class="k">"Hypotrochoid №7"</span>,
+  equation: <span class="k">"x=(R−r)cosθ + d·cos(((R−r)/r)θ)"</span>,
+  params: [
+    { key:<span class="k">"r"</span>, label:<span class="k">"inner gear"</span>, min:20, max:95 },
+    { key:<span class="k">"d"</span>, label:<span class="k">"pen offset"</span>, min:10, max:90 },
+  ],
+  *draw(ctx, w, h, p, rng) {
+    <span class="c">// your equation goes here;</span>
+    <span class="c">// `yield` now and then → it plots itself live,</span>
+    <span class="c">// and the same code becomes your SVG for the plotter</span>
+  }
+}</pre>
+  </div>
+</section>
+
+<footer>
+  <div>LINEWORK © <span id="year">2026</span> — a gallery of computed drawings by <span id="artistName">you</span> · no brushes were harmed</div>
+  <div class="keys"><b>G</b> collection · <b>C</b> compositions · <b>E</b> editions · <b>M</b> motion · <b>L</b> studio · <b>B</b> blueprint · <b>shift+S</b> shuffle all</div>
+</footer>
+
+<div id="lightbox" hidden>
+  <div class="lb-top">
+    <div class="idx mono" id="lbIdx">01 / 10</div>
+    <div style="display:flex;gap:8px">
+      <button id="lbPrev">← prev</button>
+      <button id="lbNext">next →</button>
+      <button id="lbClose">esc ✕</button>
+    </div>
+  </div>
+  <div class="lb-grid">
+    <div class="lb-canvas-wrap"><canvas id="lbCanvas"></canvas></div>
+    <div class="lb-side">
+      <h3 id="lbTitle"></h3>
+      <div class="eq" id="lbEq"></div>
+      <div class="controls" id="lbControls"></div>
+      <div class="btn-row">
+        <button class="accent" id="lbShuffle">shuffle</button>
+        <button id="lbReplay">replay</button>
+        <button id="lbLinkBtn">copy link</button>
+        <button id="lbPng">PNG · 2000px</button>
+        <button id="lbSvg">SVG · plotter</button>
+      </div>
+      <div class="lb-keys"><b>←</b> <b>→</b> pieces · <b>S</b> shuffle · <b>space</b> replay · <b>D</b> save · <b>esc</b> close</div>
+    </div>
+  </div>
+</div>
+
+<div id="toast" role="status"></div>
+
+<script type="module" src="src/main.js"></script>
+</body>
+</html>
