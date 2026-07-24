@@ -148,55 +148,6 @@ input[type=range]::-moz-range-thumb{width:9px;height:9px;border-radius:50%;backg
 .btn-row{margin-top:14px;display:flex;gap:8px;flex-wrap:wrap}
 .gl-fallback{padding:40px 20px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted)}
 
-/* ---------- the studio ---------- */
-.studio{max-width:1180px;margin:24px auto 0;padding:0 28px}
-.studio-panel{border:1px solid var(--frame);display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr)}
-.studio-canvas-wrap{border-right:1px solid var(--frame)}
-.studio-canvas-wrap canvas{display:block;width:100%;aspect-ratio:1/1}
-.studio-side{padding:18px 20px 20px;display:flex;flex-direction:column;gap:14px}
-.studio-side h3{font-weight:500;font-size:18px;font-style:italic}
-.studio-lead{font-size:14px;color:var(--ink);opacity:.75;max-width:34em}
-
-.preset-label{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.06em}
-.preset-strip{
-  display:grid;grid-template-columns:repeat(4,1fr);gap:8px;
-}
-.preset{
-  border:1px solid var(--frame);background:var(--panel);padding:0;cursor:pointer;
-  display:flex;flex-direction:column;gap:0;overflow:hidden;
-}
-.preset:hover{background:transparent}
-.preset canvas{display:block;width:100%;aspect-ratio:1/1}
-.preset span{
-  font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.03em;
-  color:var(--muted);padding:4px 2px;text-align:center;border-top:1px solid var(--frame);
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-}
-.preset:hover span{color:var(--ink)}
-.preset.active{outline:2px solid var(--crimson);outline-offset:-1px}
-.preset.active span{color:var(--crimson)}
-
-.studio-knobs{display:flex;flex-direction:column;gap:8px}
-.studio-error{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--crimson);min-height:18px}
-.studio-hint{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted)}
-
-details.studio-math{border-top:1px solid var(--frame);padding-top:12px}
-details.studio-math summary{
-  font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);
-  cursor:pointer;letter-spacing:.04em;list-style:none;
-}
-details.studio-math summary::-webkit-details-marker{display:none}
-details.studio-math summary::before{content:'▸ ';color:var(--crimson)}
-details.studio-math[open] summary::before{content:'▾ '}
-details.studio-math summary:hover{color:var(--ink)}
-.studio-field{margin-top:10px}
-.studio-field label{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);display:block;margin-bottom:4px}
-.studio-field input[type=text]{
-  width:100%;font-family:'IBM Plex Mono',monospace;font-size:13px;
-  border:1px solid var(--frame);background:var(--panel);color:var(--ink);
-  padding:8px 10px;
-}
-
 /* ---------- lightbox ---------- */
 #lightbox{
   position:fixed;inset:0;z-index:50;overflow-y:auto;
@@ -233,6 +184,15 @@ details.studio-math summary:hover{color:var(--ink)}
 .about pre .c{color:var(--muted)}
 .about pre .k{color:var(--crimson)}
 .about a{color:var(--blue)}
+.about ol{margin:6px 0 14px 20px;font-size:16px;color:var(--ink);opacity:.85;max-width:34em}
+.about ol li{margin-bottom:7px;padding-left:4px}
+.about .make-links{font-family:'IBM Plex Mono',monospace;font-size:13px;opacity:1}
+.about.make{align-items:start}
+
+/* the closing colophon — a single prose note */
+.colophon{max-width:1180px;margin:78px auto 0;padding:0 28px;scroll-margin-top:80px}
+.colophon h2{font-weight:500;font-size:22px;margin-bottom:12px}
+.colophon p{font-size:16px;color:var(--ink);opacity:.8;margin-bottom:12px;max-width:60ch}
 footer{
   margin-top:90px;border-top:1px solid var(--frame);
   padding:22px 28px 34px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
@@ -250,11 +210,8 @@ footer a:hover{color:var(--crimson)}
 
 @media (max-width:860px){
   .about{grid-template-columns:1fr}
-  .studio-panel{grid-template-columns:1fr}
-  .studio-canvas-wrap{border-right:none;border-bottom:1px solid var(--frame)}
   .lb-grid{grid-template-columns:1fr}
   .hero-canvas-wrap canvas{height:300px}
   header nav a{margin-left:8px}
-  .preset-strip{grid-template-columns:repeat(4,1fr)}
 }
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}

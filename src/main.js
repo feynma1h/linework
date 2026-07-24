@@ -15,7 +15,6 @@ import { renderAllPieces } from './views/gallery.js';
 import { openLightbox, closeLightbox, isLightboxOpen, refreshLightbox } from './views/lightbox.js';
 import { heroFit } from './views/hero.js';
 import { rerenderShaders } from './views/motion.js';
-import { loadStudioFromParams, refreshStudio, bootStudio } from './views/studio.js';
 
 /* =================== theme =================== */
 let themeName = 'paper';
@@ -28,7 +27,6 @@ function setTheme(name) {
   refreshLightbox();
   rerenderShaders();
   heroFit();
-  refreshStudio();
 }
 document.getElementById('themeBtn').addEventListener('click', () => {
   setTheme(themeName === 'paper' ? 'blueprint' : 'paper');
@@ -63,7 +61,7 @@ document.addEventListener('keydown', e => {
   else if (e.key === 'c' || e.key === 'C') document.getElementById('compositions').scrollIntoView();
   else if (e.key === 'e' || e.key === 'E') document.getElementById('editions').scrollIntoView();
   else if (e.key === 'm' || e.key === 'M') document.getElementById('motion').scrollIntoView();
-  else if (e.key === 'l' || e.key === 'L') document.getElementById('studio').scrollIntoView();
+  else if (e.key === 'y' || e.key === 'Y') document.getElementById('make').scrollIntoView();
   else if (e.key === 'b') setTheme(themeName === 'paper' ? 'blueprint' : 'paper');
   else if (e.key === 'S' && e.shiftKey) shuffleAll();
 });
@@ -75,11 +73,6 @@ function applyHash() {
   try { ps = new URLSearchParams(location.hash.slice(1)); } catch (e) { return false; }
   if (ps.get('theme') === 'blueprint') setTheme('blueprint');
 
-  if (ps.has('lab')) {
-    loadStudioFromParams(ps);
-    setTimeout(() => document.getElementById('studio').scrollIntoView(), 150);
-    return true;
-  }
   if (ps.has('p')) {
     const idx = parseInt(ps.get('p'));
     if (isNaN(idx) || idx < 0 || idx >= PIECES.length) return false;
@@ -100,9 +93,7 @@ function applyHash() {
 /* =================== boot =================== */
 document.getElementById('artistName').textContent = SITE.artist;
 document.getElementById('year').textContent = SITE.year;
-const hadHash = applyHash();
-const hashIsLab = hadHash && new URLSearchParams(location.hash.slice(1)).has('lab');
-if (!hashIsLab) bootStudio();
+applyHash();
 
 /* re-render on resize (debounced) */
 let rT;
@@ -113,6 +104,5 @@ window.addEventListener('resize', () => {
     refreshLightbox();
     rerenderShaders();
     heroFit();
-    refreshStudio();
   }, 200);
 });

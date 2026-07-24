@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LINEWORK — art from equations</title>
-<meta name="description" content="A living gallery of mathematical art. Every piece is drawn live in your browser by a few lines of math — string art, harmonographs, strange attractors, GPU shaders — and exports as plotter-ready SVG. Make your own in the Studio.">
+<meta name="description" content="A living gallery of mathematical art. Every piece is drawn live in your browser by a few lines of math — string art, harmonographs, strange attractors, GPU shaders — and exports as plotter-ready SVG. Fork it and add your own in code.">
 <meta property="og:title" content="LINEWORK — art from equations">
 <meta property="og:description" content="Plug in an equation. Get back something beautiful. Interactive math art, drawn live in your browser and ready for a real pen.">
 <meta name="theme-color" content="#FBFAF5">
@@ -22,7 +22,7 @@
     <a href="#compositions">compositions</a>
     <a href="#editions">editions</a>
     <a href="#motion">in motion</a>
-    <a href="#studio">the studio</a>
+    <a href="#make">make your own</a>
     <a href="#how">colophon</a>
     <button class="ghost" id="shuffleAllBtn" title="shuffle every piece (shift+S)">↻ shuffle all</button>
     <button class="ghost" id="themeBtn" title="toggle blueprint mode (B)">◐ blueprint</button>
@@ -92,69 +92,29 @@
 
 <div class="bridge"><p>You've seen what rules can do. Time to write one of your own.<span class="cue">↓</span></p></div>
 
-<div class="chapter" id="studio">
+<div class="chapter" id="make">
   <div class="chapter-mark">
     <span class="chapter-no">05</span>
-    <h2>The Studio</h2>
+    <h2>Make your own</h2>
     <div class="rule"></div>
-    <div class="count mono">your turn at the press</div>
+    <div class="count mono">one function · no build step</div>
   </div>
-  <p class="chapter-intro"><b>Your rule.</b> The rule-maker itself. No math required — start from a specimen, turn the knobs, discover a curve nobody has framed before. When you love it, send it to a pen.</p>
+  <p class="chapter-intro"><b>Your rule.</b> The gallery is a codebase, not a black box — every piece is one small function. Fork it, write a rule, and it joins the collection already wired with sliders, shuffle, a lightbox, permalinks and plotter-ready SVG export.</p>
 </div>
-<section class="studio">
-  <div class="studio-panel">
-    <div class="studio-canvas-wrap"><canvas id="studioCanvas" aria-label="Your parametric drawing"></canvas></div>
-    <div class="studio-side">
-      <h3>Your turn at the press</h3>
-      <p class="studio-lead">You don't need to know the math. Pick a starting point below, turn the knobs, or hit <em>surprise me</em> — every path here lands on something worth keeping. Then export it as SVG and feed it to a real pen.</p>
-
-      <div class="preset-label">start from a specimen ↓</div>
-      <div class="preset-strip" id="studioPresets"></div>
-
-      <div class="btn-row">
-        <button class="accent" id="studioSurprise">🎲 surprise me</button>
-        <button id="studioReplay">replay</button>
-      </div>
-
-      <div class="studio-knobs">
-        <div class="ctl"><label>detail (×π)</label><input type="range" id="studioTm" min="1" max="48" step="1" value="2"><output id="studioTmOut">2</output></div>
-        <div class="ctl"><label>a</label><input type="range" id="studioA" min="-10" max="10" step="0.1" value="7"><output id="studioAOut">7</output></div>
-        <div class="ctl"><label>b</label><input type="range" id="studioB" min="-10" max="10" step="0.1" value="3"><output id="studioBOut">3</output></div>
-      </div>
-      <div class="studio-error" id="studioError" role="alert"></div>
-
-      <details class="studio-math">
-        <summary>show the math</summary>
-        <div class="studio-field">
-          <label for="studioX">x(t) =</label>
-          <input type="text" id="studioX" spellcheck="false" autocomplete="off">
-        </div>
-        <div class="studio-field">
-          <label for="studioY">y(t) =</label>
-          <input type="text" id="studioY" spellcheck="false" autocomplete="off">
-        </div>
-        <div class="studio-hint">use t, a, b · sin cos tan sqrt abs exp log pow min max floor · pi · ^ for powers · Enter to plot</div>
-      </details>
-
-      <div class="btn-row">
-        <button id="studioLink">copy link</button>
-        <button id="studioPng">PNG</button>
-        <button id="studioSvg">SVG</button>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="about" id="how">
+<section class="about make" id="make-body">
   <div>
-    <h2>Colophon</h2>
-    <p>Each artwork here is a single JavaScript function: it receives a canvas and a handful of parameters, and traces curves with plain trigonometry and noise. The moving pieces are fragment shaders — tiny programs your graphics card runs for every pixel, sixty times a second. There is no framework and no build step; the whole thing is plain ES modules a browser runs as-is.</p>
-    <p>Posting a new piece means writing one function and adding one entry to a list. The sliders, plotting animation, lightbox, permalinks and exports all come for free. That's the entire publishing workflow: keyboard in, art out. The <span class="mono" style="color:var(--blue)">README</span> in the repo walks you through it.</p>
-    <p>Every plotted piece (and your Studio creations) exports as SVG — real vector paths, not pixels. Feed that file to an AxiDraw or any pen plotter and these drawings become physical ink on physical paper, exactly the way string artists and spirograph makers work by hand. The background sits on its own layer so you can delete it before plotting.</p>
-    <p>Fork it, change the code in <span class="mono" style="color:var(--blue)">src/</span>, and switch on GitHub Pages — your own gallery gets a public URL in about two minutes. Every slider position is shareable; the link encodes the math itself.</p>
+    <p>The whole workflow is one generator function dropped into <span class="mono" style="color:var(--blue)">src/art/collection.js</span>. Each <span class="mono" style="color:var(--blue)">yield</span> plots one step on screen — and the <em>same</em> code is replayed into vector paths for the SVG export, so an AxiDraw or any pen plotter can draw your rule in real ink. No build step, no framework: plain ES modules a browser runs as-is.</p>
+    <ol>
+      <li>Fork the repo (or use it as a template) and put your name in <span class="mono" style="color:var(--blue)">src/config.js</span>.</li>
+      <li>Add one object to the piece list — a title, its equation, a few sliders, and a <span class="mono" style="color:var(--blue)">*draw()</span> generator.</li>
+      <li>Reload. It appears in the gallery, fully wired — sliders, shuffle, lightbox, PNG + SVG, permalink.</li>
+      <li>Flip on GitHub Pages and your own gallery is live in about two minutes.</li>
+    </ol>
+    <p>Compositions, editions and shaders are added exactly the same way — one entry in the matching file. The <a href="https://github.com/feynma1h/linework/blob/main/CONTRIBUTING.md">contributor guide</a> walks through each.</p>
+    <p class="make-links"><a href="https://github.com/feynma1h/linework">Fork on GitHub ↗</a> &nbsp;·&nbsp; <a href="https://github.com/feynma1h/linework/blob/main/CONTRIBUTING.md">Read the guide ↗</a></p>
   </div>
   <div>
-    <pre><span class="c">// adding a new artwork = one object in src/art/collection.js</span>
+    <pre><span class="c">// a new artwork = one object in src/art/collection.js</span>
 {
   title: <span class="k">"Hypotrochoid №7"</span>,
   equation: <span class="k">"x=(R−r)cosθ + d·cos(((R−r)/r)θ)"</span>,
@@ -171,9 +131,15 @@
   </div>
 </section>
 
+<section class="colophon" id="how">
+  <h2>Colophon</h2>
+  <p>No framework, no build step — the whole site is plain ES modules a browser runs as-is. Each plotted piece is one seeded generator function, and a single fake canvas context replays it into vector paths, so the drawing you see and the SVG you export are guaranteed to be the same lines. The moving pieces are fragment shaders your GPU runs per pixel, sixty times a second.</p>
+  <p>Set in Spectral and IBM Plex Mono. Every plotted piece exports as plotter-ready SVG with the paper background on its own layer — delete it and send the rest to a pen. Released under the MIT license; fork it and sign it with your own name.</p>
+</section>
+
 <footer>
   <div>LINEWORK © <span id="year">2026</span> — a gallery of computed drawings by <span id="artistName">you</span> · no brushes were harmed</div>
-  <div class="keys"><b>G</b> collection · <b>C</b> compositions · <b>E</b> editions · <b>M</b> motion · <b>L</b> studio · <b>B</b> blueprint · <b>shift+S</b> shuffle all</div>
+  <div class="keys"><b>G</b> collection · <b>C</b> compositions · <b>E</b> editions · <b>M</b> motion · <b>Y</b> make · <b>B</b> blueprint · <b>shift+S</b> shuffle all</div>
 </footer>
 
 <div id="lightbox" hidden>

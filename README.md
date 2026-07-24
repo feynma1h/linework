@@ -24,7 +24,7 @@ The site is one argument in five chapters — a deliberate progression, not a me
 | 02 | **Compositions** | Many equations sharing one frame — the chorus |
 | 03 | **Editions** | Layered, signed prints — the finished artifact |
 | 04 | **In Motion** | The same ideas alive on your GPU |
-| 05 | **The Studio** | Your turn — start from a specimen, turn the knobs, export |
+| 05 | **Make your own** | Your turn — fork it and write a rule in code |
 
 Every piece has sliders, a live "plot-it-in-front-of-you" animation, a lightbox, a
 shareable permalink that encodes the math itself, and PNG + SVG export — all for free.
@@ -109,7 +109,7 @@ src/
     shaders.js          04 · GPU fragment shaders
     registry.js         the ordered list the gallery renders
   views/              the UI, one file per section
-    gallery.js  lightbox.js  hero.js  motion.js  studio.js
+    gallery.js  lightbox.js  hero.js  motion.js
 ```
 
 The trick that keeps it honest: a single `draw()` generator per piece drives both
@@ -121,7 +121,7 @@ strokes into vector paths.
 
 ## Plotting for real
 
-Every plotted piece and every Studio creation exports as SVG with real vector paths.
+Every plotted piece exports as SVG with real vector paths.
 Feed that file to an [AxiDraw](https://axidraw.com/) or any pen plotter and the
 drawing becomes ink on paper, the way string artists and spirograph makers work by
 hand. The paper-coloured background sits on its own layer (`id="paper"`) so you can
