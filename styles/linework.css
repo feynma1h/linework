@@ -72,17 +72,29 @@ button.accent:hover{background:var(--crimson);color:var(--paper)}
 button.ghost{border:none;color:var(--muted);padding:6px 6px}
 button.ghost:hover{background:transparent;color:var(--crimson)}
 
-/* ---------- hero ---------- */
-.hero{padding:54px 28px 30px;max-width:1180px;margin:0 auto}
-.hero .kicker{
-  font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.28em;
-  text-transform:uppercase;color:var(--muted);margin-bottom:18px;
+/* ---------- cover (the title page) ---------- */
+.hero{
+  max-width:1180px;margin:0 auto;padding:7vh 28px 4vh;
+  min-height:calc(100vh - 63px);
+  display:flex;flex-direction:column;justify-content:center;
+  scroll-margin-top:80px;
 }
+.hero .kicker{
+  font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.24em;
+  text-transform:uppercase;color:var(--crimson);font-weight:500;margin-bottom:22px;
+}
+.hero .kicker .dim{color:var(--muted);font-weight:400}
 .hero h1{font-weight:300;font-size:clamp(34px,5.4vw,62px);line-height:1.12;max-width:13em}
 .hero h1 em{font-style:italic;color:var(--crimson)}
-.hero p.lede{margin-top:16px;max-width:38em;font-size:17px;color:var(--ink);opacity:.82}
-.hero-canvas-wrap{margin-top:34px;border:1px solid var(--frame);position:relative}
-.hero-canvas-wrap canvas{display:block;width:100%;height:380px;cursor:pointer}
+.hero p.lede{margin-top:20px;max-width:40em;font-size:17px;color:var(--ink);opacity:.82}
+.hero p.lede b{font-weight:500;opacity:1}
+.hero-canvas-wrap{margin-top:38px;border:1px solid var(--frame);position:relative}
+.hero-canvas-wrap canvas{display:block;width:100%;height:340px;cursor:pointer}
+.scroll-cue{
+  margin-top:auto;padding-top:40px;
+  font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:var(--muted);
+}
+.scroll-cue b{color:var(--crimson);font-weight:500}
 .hero-tag{
   position:absolute;left:0;bottom:0;transform:translateY(50%);
   margin-left:18px;background:var(--paper);border:1px solid var(--frame);
@@ -90,7 +102,12 @@ button.ghost:hover{background:transparent;color:var(--crimson)}
 }
 
 /* ---------- chapters (the anchoring progression) ---------- */
-.chapter{max-width:1180px;margin:78px auto 0;padding:0 28px}
+.chapter{max-width:1180px;margin:78px auto 0;padding:0 28px;scroll-margin-top:80px}
+.about{scroll-margin-top:80px}
+/* connective tissue between chapters — each beat hands off to the next */
+.bridge{max-width:1180px;margin:56px auto 0;padding:0 28px;text-align:right}
+.bridge p{display:inline-block;max-width:40em;font-style:italic;font-size:15.5px;color:var(--ink);opacity:.62}
+.bridge .cue{font-family:'IBM Plex Mono',monospace;font-style:normal;color:var(--crimson);opacity:1;margin-left:6px}
 .chapter-mark{display:flex;align-items:baseline;gap:14px}
 .chapter-no{
   font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:500;
