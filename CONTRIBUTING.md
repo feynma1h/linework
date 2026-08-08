@@ -32,9 +32,18 @@ Each artwork is a generator function:
 Every `yield` is one animation step: the piece plots that much, then paints again on
 the next frame. Yield every few strokes for a satisfying live draw. The *same*
 generator is replayed against a fake context in [`src/core/svg.js`](src/core/svg.js)
-to produce the SVG export — so if you draw with `moveTo`/`lineTo`/`arc`/`fillRect`,
-you get plotter-ready vectors for free. Avoid `fillText`, images, and gradients;
-they don't have a vector equivalent and won't export.
+to produce the SVG export, so plotter-ready vectors come for free — as long as you
+stay inside what the recorder understands:
+
+| You draw with | You get |
+|---|---|
+| `moveTo` / `lineTo` / `stroke` | a `<path>` |
+| `arc` + `fill` or `stroke` | a `<circle>` — **full circles only**; walk a partial arc with `lineTo` |
+| `fillRect` | a dot, batched into one `<path>` |
+| `fillText`, images, gradients | nothing — no vector equivalent |
+
+`save`/`restore`/`setTransform` are accepted but not recorded, so keep your geometry
+in plain coordinates rather than leaning on the canvas transform stack.
 
 Read colours from the active theme `T` (`T.ink`, `T.crimson`, `T.blue`) and wrap them
 with `rgba()` / `lerpColor()` from [`src/core/palette.js`](src/core/palette.js) so your

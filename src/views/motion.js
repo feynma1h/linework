@@ -82,7 +82,7 @@ SHADERS.forEach(def => {
   }
   const prog = compileGL(gl, def.frag);
   if (!prog) {
-    card.querySelector('.art').innerHTML = '<div class="gl-fallback">The shader failed to compile on this device — sorry. The plotted gallery above still works fully.</div>';
+    card.querySelector('.art').innerHTML = '<div class="gl-fallback">This shader would not compile on your graphics driver. The plotted gallery above still works fully.</div>';
     return;
   }
   const buf = gl.createBuffer();
@@ -133,7 +133,7 @@ function glLoop(ts) {
   glPieces.forEach(o => { if (o.visible && o.playing) { o.t += dt; glRender(o); } });
   requestAnimationFrame(glLoop);
 }
-if (glPieces.length || SHADERS.length) requestAnimationFrame(glLoop);
+if (glPieces.length) requestAnimationFrame(glLoop);
 
 /* re-render every shader once (used on theme switch and resize) */
 export function rerenderShaders() {

@@ -38,11 +38,16 @@ export function makeRecorder() {
     beginPath() { cur = { d: [], arcs: [] }; },
     moveTo(x, y) { if (cur) cur.d.push(`M${r2(x)} ${r2(y)}`); },
     lineTo(x, y) { if (cur) cur.d.push(`L${r2(x)} ${r2(y)}`); },
+    /* Full circles only — walk a partial arc with lineTo (see the Truchet tile). */
     arc(x, y, r) { if (cur) cur.arcs.push([x, y, r]); },
     stroke() {
-      if (!cur || !cur.d.length) return;
+      if (!cur) return;
       const { hex, op } = parse(st.stroke);
-      parts.push(`<path d="${cur.d.join('')}" fill="none" stroke="${hex}" stroke-opacity="${r2(op * st.ga)}" stroke-width="${r2(st.lw)}"/>`);
+      const paint = `stroke="${hex}" stroke-opacity="${r2(op * st.ga)}" stroke-width="${r2(st.lw)}"`;
+      if (cur.d.length) parts.push(`<path d="${cur.d.join('')}" fill="none" ${paint}/>`);
+      cur.arcs.forEach(([x, y, r]) => {
+        parts.push(`<circle cx="${r2(x)}" cy="${r2(y)}" r="${r2(r)}" fill="none" ${paint}/>`);
+      });
     },
     fill() {
       if (!cur) return;

@@ -27,19 +27,23 @@ The site is one argument in five chapters — a deliberate progression, not a me
 | 05 | **Make your own** | Your turn — fork it and write a rule in code |
 
 Every piece has sliders, a live "plot-it-in-front-of-you" animation, a lightbox, a
-shareable permalink that encodes the math itself, and PNG + SVG export — all for free.
+shareable permalink that encodes the math itself, and PNG + SVG export.
 
 ---
 
 ## Make it yours
 
 1. **Fork** this repository (or use it as a template).
-2. Open [`src/config.js`](src/config.js) and put your name in:
+2. Open [`src/config.js`](src/config.js) and put your name and fork in:
    ```js
-   export const SITE = { artist: 'Your Name', ... };
+   export const SITE = { artist: 'Your Name', repo: 'https://github.com/you/linework', year: 2026 };
    ```
+   Every "fork this" link and the footer signature follow from that.
 3. **Turn on GitHub Pages**: repo → *Settings → Pages → Build from branch → `main` / root*.
    Your gallery gets a public URL in about two minutes.
+4. Once you know that URL, update the `<head>` of [`index.html`](index.html) — `canonical`,
+   `og:url` and `og:image` are absolute, so they need to point at *your* site for link
+   previews to work.
 
 That's the whole deployment. To make new art, see below.
 
@@ -91,7 +95,10 @@ npx serve
 
 ```
 index.html            markup only — no logic lives here
+og.png                the link-preview card (generated, see below)
 styles/linework.css   the two themes (paper / blueprint) and layout
+tools/
+  share-card.html     redraws og.png from the gallery's own pieces
 src/
   config.js           ← your name and site details
   main.js             entry point: theme, shortcuts, permalinks, boot
@@ -116,6 +123,11 @@ The trick that keeps it honest: a single `draw()` generator per piece drives bot
 the on-screen animation and the SVG export. There is no second copy of the drawing
 code — [`core/svg.js`](src/core/svg.js) is a fake canvas context that turns the same
 strokes into vector paths.
+
+Even the share card follows that rule. `og.png` is not artwork someone made in a
+design tool — [`tools/share-card.html`](tools/share-card.html) runs three of the
+gallery's own generators onto a 1200 × 630 plate, so the preview can't drift from
+the work it advertises. Open it over HTTP and press **save og.png** to redraw it.
 
 ---
 

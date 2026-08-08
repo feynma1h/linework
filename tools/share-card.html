@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>LINEWORK — share card</title>
+<!--
+  Builds og.png, the 1200×630 card that link previews show.
+
+  It draws three plates with the gallery's own generators, so the card
+  can never drift from the work it advertises. Serve the repo, open
+  this page, and use the button — or render it headlessly (?bare drops
+  the button so it stays out of the shot):
+
+    python3 -m http.server 8000
+    chrome --headless=new --window-size=1200,630 \
+           --virtual-time-budget=20000 --screenshot=og.png \
+           "http://localhost:8000/tools/share-card.html?bare"
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,500;1,300;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  html,body{margin:0;padding:0;background:#FBFAF5;overflow:hidden}
+  canvas{display:block;width:1200px;height:630px}
+  #save{
+    position:fixed;right:16px;bottom:16px;
+    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.06em;
+    border:1px solid #15161B;background:#FBFAF5;color:#15161B;padding:6px 12px;cursor:pointer;
+  }
+</style>
+</head>
+<body>
+<canvas id="card" width="1200" height="630"></canvas>
+<button id="save">save og.png</button>
+<script type="module">
+import { T } from '../src/core/palette.js';
+import { mulberry32 } from '../src/core/math.js';
+import { PIECES } from '../src/art/registry.js';
+
+/* Which pieces to show, left to right. Pick for contrast: the trio
+   below reads as lines, then curves, then points. */
+const PICKS = ['Times Table on a Circle', 'Hypotrochoid Rings', 'Phyllotaxis'];
+const TAGLINE = 'Art from equations — drawn live in the browser, ready for a real pen.';
+
+const W = 1200, H = 630, PAD = 44, GAP = 28, TOP = 54;
+const S = Math.round((W - PAD * 2 - GAP * 2) / PICKS.length);
+
+const ink = `rgb(${T.ink.join(',')})`, crimson = `rgb(${T.crimson.join(',')})`;
+const canvas = document.getElementById('card');
+const ctx = canvas.getContext('2d');
+
+/* paper, then the drafting grid the site sits on */
+ctx.fillStyle = T.paper;
+ctx.fillRect(0, 0, W, H);
+for (const [step, color] of [[24, '#DDE5F0'], [120, '#CBD7E9']]) {
+  ctx.strokeStyle = color; ctx.lineWidth = 1;
+  for (let x = 0.5; x < W; x += step) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); }
+  for (let y = 0.5; y < H; y += step) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
+}
+
+/* three plates, run to completion at 2× and stamped in */
+PICKS.forEach((title, i) => {
+  const piece = PIECES.find(p => p.title === title);
+  if (!piece) throw new Error(`no piece titled "${title}"`);
+  const values = {};
+  piece.params.forEach(prm => values[prm.key] = prm.value);
+
+  const off = document.createElement('canvas');
+  off.width = off.height = S * 2;
+  const octx = off.getContext('2d');
+  octx.setTransform(2, 0, 0, 2, 0, 0);
+  octx.fillStyle = T.paper; octx.fillRect(0, 0, S, S);
+  const gen = piece.draw(octx, S, S, values, mulberry32(1000 + PIECES.indexOf(piece) * 7));
+  let guard = 0;
+  while (!gen.next().done && ++guard < 200000) {}
+
+  const x = PAD + i * (S + GAP);
+  ctx.drawImage(off, x, TOP, S, S);
+  ctx.strokeStyle = ink; ctx.lineWidth = 1;
+  ctx.strokeRect(x + 0.5, TOP + 0.5, S - 1, S - 1);
+});
+
+/* wait for the real faces before setting any type */
+await document.fonts.load("500 34px 'IBM Plex Mono'");
+await document.fonts.load("300 italic 23px 'Spectral'");
+await document.fonts.ready;
+
+const base = TOP + S;
+ctx.strokeStyle = ink; ctx.lineWidth = 1;
+ctx.beginPath(); ctx.moveTo(PAD, base + 40.5); ctx.lineTo(W - PAD, base + 40.5); ctx.stroke();
+
+if ('letterSpacing' in ctx) ctx.letterSpacing = '10px';
+ctx.font = "500 34px 'IBM Plex Mono', monospace";
+ctx.fillStyle = ink;
+ctx.fillText('LINE', PAD, base + 96);
+ctx.fillStyle = crimson;
+ctx.fillText('WORK', PAD + ctx.measureText('LINE').width, base + 96);
+if ('letterSpacing' in ctx) ctx.letterSpacing = '0px';
+
+ctx.font = "300 italic 23px 'Spectral', Georgia, serif";
+ctx.fillStyle = `rgba(${T.ink.join(',')},.72)`;
+ctx.fillText(TAGLINE, PAD, base + 138);
+
+const save = document.getElementById('save');
+if (location.search.includes('bare')) {
+  save.remove();
+} else {
+  save.addEventListener('click', () => {
+    const a = document.createElement('a');
+    a.download = 'og.png';
+    a.href = canvas.toDataURL('image/png');
+    a.click();
+  });
+}
+</script>
+</body>
+</html>

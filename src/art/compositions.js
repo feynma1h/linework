@@ -13,7 +13,7 @@ export const COMPOSITIONS = [
 {
   section: 'comp',
   title: "Truchet Quilt",
-  equation: "tile ∈ {◜◞, ◝◟} chosen by χ(i,j) — arcs meet at edge midpoints",
+  equation: "tile ∈ {◜◞, ◝◟} by coin flip — quarter-arcs meet at edge midpoints",
   params: [
     { key: "cells", label: "cells", min: 4, max: 14, step: 1, value: 8 },
     { key: "detail", label: "subdivide %", min: 0, max: 60, step: 5, value: 25 },

@@ -42,7 +42,7 @@ export const EDITIONS = [
     const cx = w * 0.24, cy = h * 0.78, R = Math.min(w, h) * 0.10;
     ctx.strokeStyle = rgba(T.crimson, 0.85); ctx.lineWidth = 0.9;
     const steps = 900;
-    const pt = q => { const th = 6.2832 * 3 * q / steps; const r = Math.cos((5 / 3) * th) * R;
+    const pt = q => { const th = Math.PI * 2 * 3 * q / steps; const r = Math.cos((5 / 3) * th) * R;
       return [cx + r * Math.cos(th), cy + r * Math.sin(th)]; };
     let s = 0, [px, py] = pt(0);
     while (s < steps) {

@@ -66,7 +66,7 @@ export const LAYERS = {
       const th = n * o.ang * Math.PI / 180, r = c * Math.sqrt(n);
       ctx.fillStyle = lerpColor(o.c1, o.c2, n / o.count, o.alpha);
       ctx.beginPath();
-      ctx.arc(o.cx + r * Math.cos(th), o.cy + r * Math.sin(th), o.dot || (0.9 + 1.1 * n / o.count), 0, 6.2832);
+      ctx.arc(o.cx + r * Math.cos(th), o.cy + r * Math.sin(th), o.dot || (0.9 + 1.1 * n / o.count), 0, Math.PI * 2);
       ctx.fill();
       if (n % 16 === 0) yield;
     }
@@ -78,7 +78,7 @@ export const LAYERS = {
     for (let i = 0; i < o.count; i++) {
       const x = 22 + rng() * (w - 44), y = 22 + rng() * (h - 44);
       const r = 0.5 + rng() * o.rmax;
-      ctx.beginPath(); ctx.arc(x, y, r, 0, 6.2832); ctx.fill();
+      ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
       if (i % 24 === 0) yield;
     }
   },
@@ -92,7 +92,7 @@ export const LAYERS = {
       const revs = Math.min(r / gcd(R, r), 80);
       const maxR = (R - r) + d, scale = o.size / maxR * (1 - L * 0.04);
       ctx.strokeStyle = rgba(o.colors[L % o.colors.length], o.alpha); ctx.lineWidth = 0.6;
-      const thEnd = 6.2832 * revs + 0.01;
+      const thEnd = Math.PI * 2 * revs + 0.01;
       let th = 0;
       const pt = t => [o.cx + scale * ((R - r) * Math.cos(t) + d * Math.cos((R - r) / r * t)),
                        o.cy + scale * ((R - r) * Math.sin(t) - d * Math.sin((R - r) / r * t))];
@@ -109,7 +109,7 @@ export const LAYERS = {
   *lissajous(ctx, w, h, o) {
     ctx.strokeStyle = rgba(o.color, o.alpha); ctx.lineWidth = o.lw;
     const steps = 1400;
-    const pt = s => { const t = 6.2832 * s / steps;
+    const pt = s => { const t = Math.PI * 2 * s / steps;
       return [o.cx + o.A * Math.sin(o.a * t + o.phase), o.cy + o.A * Math.sin(o.b * t)]; };
     let s = 0, [px, py] = pt(0);
     while (s < steps) {
@@ -139,7 +139,7 @@ export const LAYERS = {
   *chords(ctx, w, h, o) {
     ctx.lineWidth = o.lw || 0.6;
     for (let n = 1; n < o.N; n++) {
-      const a = 6.2832 * n / o.N, b = 6.2832 * ((o.k * n) % o.N) / o.N;
+      const a = Math.PI * 2 * n / o.N, b = Math.PI * 2 * ((o.k * n) % o.N) / o.N;
       ctx.strokeStyle = lerpColor(o.c1, o.c2, n / o.N, o.alpha);
       ctx.beginPath();
       ctx.moveTo(o.cx + o.R * Math.cos(a), o.cy + o.R * Math.sin(a));
