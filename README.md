@@ -96,6 +96,7 @@ npx serve
 ```
 index.html            markup only — no logic lives here
 og.png                the link-preview card (generated, see below)
+thumbnail.png         4:3 project thumbnail
 styles/linework.css   the two themes (paper / blueprint) and layout
 tools/
   share-card.html     redraws og.png from the gallery's own pieces
