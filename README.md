@@ -39,8 +39,9 @@ shareable permalink that encodes the math itself, and PNG + SVG export.
    export const SITE = { artist: 'Your Name', repo: 'https://github.com/you/linework', year: 2026 };
    ```
    Every "fork this" link and the footer signature follow from that.
-3. **Turn on GitHub Pages**: repo → *Settings → Pages → Build from branch → `main` / root*.
-   Your gallery gets a public URL in about two minutes.
+3. **Turn on GitHub Pages**: repo → *Settings → Pages → Source → GitHub Actions*, then run
+   **Deploy to GitHub Pages** from the *Actions* tab (on a fork, allow workflows there first).
+   Your gallery gets a public URL in about two minutes, and every push to `main` redeploys it.
 4. Once you know that URL, update the `<head>` of [`index.html`](index.html) — `canonical`,
    `og:url` and `og:image` are absolute, so they need to point at *your* site for link
    previews to work.
@@ -100,6 +101,8 @@ thumbnail.png         4:3 project thumbnail
 styles/linework.css   the two themes (paper / blueprint) and layout
 tools/
   share-card.html     redraws og.png from the gallery's own pieces
+.github/workflows/
+  deploy.yml          publishes index.html, og.png, src/ and styles/ to Pages
 src/
   config.js           ← your name and site details
   main.js             entry point: theme, shortcuts, permalinks, boot
